@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "commissions",
+  "info": {
+    "singularName": "commission",
+    "pluralName": "commissions",
+    "displayName": "Commission",
+    "description": "Tracks commission amounts earned by agents per print job"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "description": "The agent who earned this commission"
+    },
+    "company": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "description": "The company where the print job originated"
+    },
+    "print_job": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::print.print",
+      "description": "Reference to the print job associated with this commission"
+    },
+    "amount": {
+      "type": "float",
+      "required": true,
+      "description": "Commission amount earned for this job"
+    },
+    "created_at": {
+      "type": "datetime",
+      "autoCreatedAt": true
+    }
+  }
+}

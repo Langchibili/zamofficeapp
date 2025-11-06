@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "float_top_ups",
+  "info": {
+    "singularName": "float-top-up",
+    "pluralName": "float-top-ups",
+    "displayName": "FloatTopUp",
+    "description": "Records each float purchase transaction by a company"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "company": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "description": "The company that purchased float"
+    },
+    "amount_paid": {
+      "type": "float",
+      "required": true,
+      "description": "ZMW amount paid via payment gateway"
+    },
+    "float_credited": {
+      "type": "float",
+      "required": true,
+      "description": "Float balance credited (after any fees)"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Unique identifier from the payment gateway"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "completed", "failed"],
+      "default": "pending",
+      "description": "Current status of the top-up"
+    },
+    "created_at": {
+      "type": "datetime",
+      "autoCreatedAt": true
+    }
+  }
+}

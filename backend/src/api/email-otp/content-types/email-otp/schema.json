@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_otps",
+  "info": {
+    "singularName": "email-otp",
+    "pluralName": "email-otps",
+    "displayName": "EmailOTP",
+    "description": "Stores OTP codes sent to emails for verification"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "email": {
+      "type": "email",
+      "required": true,
+      "description": "The email address to which the OTP was sent"
+    },
+    "otp": {
+      "type": "string",
+      "required": true,
+      "description": "Six-digit one-time code"
+    },
+    "expires_at": {
+      "type": "datetime",
+      "required": true,
+      "description": "Timestamp after which the OTP becomes invalid"
+    }
+  }
+}

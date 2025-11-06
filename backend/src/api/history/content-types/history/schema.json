@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "histories",
+  "info": {
+    "singularName": "history",
+    "pluralName": "histories",
+    "displayName": "history",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "activity": {
+      "type": "enumeration",
+      "enum": [
+        "uploaded file",
+        "submitted print",
+        "printed file",
+        "deleted file",
+        "scheduled print",
+        "added float",
+        "withdrew commission"
+      ]
+    },
+    "activityBody": {
+      "type": "text"
+    },
+    "client": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::client.client",
+      "inversedBy": "histories"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "histories"
+    }
+  }
+}

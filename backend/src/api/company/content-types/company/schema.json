@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "companies",
+  "info": {
+    "singularName": "company",
+    "pluralName": "companies",
+    "displayName": "Company"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "json"
+    },
+    "cost_per_page": {
+      "type": "decimal"
+    },
+    "cost_per_copy": {
+      "type": "decimal"
+    },
+    "float_balance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "next_orderId_index": {
+      "type": "integer",
+      "default": 0
+    },
+    "radiusConsideredNearInMeters": {
+      "type": "integer",
+      "default": 500
+    },
+    "printCode": {
+      "type": "integer"
+    },
+    "allowsPrintScheduling": {
+      "type": "boolean",
+      "default": true
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "company"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "companies"
+    },
+    "queue": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::queue.queue",
+      "mappedBy": "company"
+    },
+    "prints": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::print.print",
+      "mappedBy": "company"
+    }
+  }
+}

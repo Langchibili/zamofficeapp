@@ -1,0 +1,34 @@
+{
+  "kind": "singleType",
+  "collectionName": "dashboard_summaries",
+  "info": {
+    "singularName": "dashboard-summary",
+    "pluralName": "dashboard-summaries",
+    "displayName": "DashboardSummary",
+    "description": "Aggregated metrics for analytics dashboards"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "total_prints": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total number of prints processed across all companies"
+    },
+    "total_commissions_paid": {
+      "type": "float",
+      "default": 0,
+      "description": "Total commission amounts paid out to agents"
+    },
+    "total_profit": {
+      "type": "float",
+      "default": 0,
+      "description": "Total profit aggregated across all companies"
+    },
+    "updated_at": {
+      "type": "datetime",
+      "autoUpdatedAt": true
+    }
+  }
+}

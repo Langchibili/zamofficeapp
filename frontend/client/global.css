@@ -1,0 +1,115 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 25% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 25% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 25% 10%;
+
+    /* Zamoffice brand: deep emerald green with warm copper accent */
+    --primary: 152 46% 28%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 152 25% 96%;
+    --secondary-foreground: 152 46% 22%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 32 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 152 46% 28%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 100%;
+
+    --sidebar-foreground: 222 25% 15%;
+
+    --sidebar-primary: 152 46% 28%;
+
+    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-accent: 152 25% 96%;
+
+    --sidebar-accent-foreground: 152 46% 22%;
+
+    --sidebar-border: 214.3 31.8% 91.4%;
+
+    --sidebar-ring: 152 46% 40%;
+  }
+
+  .dark {
+    --background: 222 50% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 50% 6%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 50% 6%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 152 50% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 152 20% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 25% 12%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 32 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 25% 16%;
+    --input: 222 25% 16%;
+    --ring: 152 50% 54%;
+    --sidebar-background: 222 50% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 152 50% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 25% 12%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 25% 12%;
+    --sidebar-ring: 152 50% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+.filepond--credits{
+  display: none !important;
+}

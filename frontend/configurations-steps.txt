@@ -1,0 +1,557 @@
+// Configuration and Integration Steps
+// This document includes:
+// 1) Your normalized data structures (as provided)
+// 2) Firebase Cloud Messaging (FCM) web notifications setup
+// 3) Google Maps JavaScript API setup for location features
+
+
+== Normalized Data Structures ==
+
+{
+  "company": {
+    "input": {
+      "name": "Campus Prints",
+      "about": "Open 8am - 10pm; student discount",
+      "location": { "lat": -15.4167, "lng": 28.2833 },
+      "cost_per_page": 1.5,
+      "services": { "color_print_surcharge": 0.5, "lamination_surcharge": 5 },
+      "float": 100.0
+    },
+    "raw_response": {
+      "data": {
+        "id": 42,
+        "attributes": {
+          "name": "Campus Prints",
+          "about": "Open 8am - 10pm; student discount",
+          "location": { "lat": -15.4167, "lng": 28.2833 },
+          "cost_per_page": 1.5,
+          "services": { "color_print_surcharge": 0.5, "lamination_surcharge": 5 },
+          "float": 100.0
+        }
+      },
+      "meta": {}
+    },
+    "normalized": {
+      "id": 42,
+      "name": "Campus Prints",
+      "about": "Open 8am - 10pm; student discount",
+      "location": { "lat": -15.4167, "lng": 28.2833 },
+      "cost_per_page": 1.5,
+      "services": { "color_print_surcharge": 0.5, "lamination_surcharge": 5 },
+      "float": 100.0
+    }
+  },
+
+  "client": {
+    "input": {
+      "clientId": "client-abc123",
+      "clientFirstName": "Zoe",
+      "clientLastName": "Mwenda",
+      "clientPhoneNumber": "+260971234567",
+      "currentLocation": { "lat": -15.4167, "lng": 28.2833 }
+    },
+    "raw_response": {
+      "data": {
+        "id": 333,
+        "attributes": {
+          "clientId": "client-abc123",
+          "clientFirstName": "Zoe",
+          "clientLastName": "Mwenda",
+          "clientPhoneNumber": "+260971234567",
+          "currentLocation": { "lat": -15.4167, "lng": 28.2833 }
+        }
+      },
+      "meta": {}
+    },
+    "normalized": {
+      "id": 333,
+      "clientId": "client-abc123",
+      "clientFirstName": "Zoe",
+      "clientLastName": "Mwenda",
+      "clientPhoneNumber": "+260971234567",
+      "currentLocation": { "lat": -15.4167, "lng": 28.2833 }
+    }
+  },
+
+  "user_plugin_admin_example": {
+    "note": "plugin::users-permissions sometimes returns raw object (no data wrapper). Use isPluginUser=true when updating.",
+    "input": {
+      "username": "campus-owner",
+      "email": "owner@campusprints.zm",
+      "confirmed": true
+    },
+    "raw_response": {
+      "id": 101,
+      "username": "campus-owner",
+      "email": "owner@campusprints.zm",
+      "confirmed": true
+    },
+    "normalized": {
+      "id": 101,
+      "username": "campus-owner",
+      "email": "owner@campusprints.zm",
+      "confirmed": true
+    }
+  },
+
+  "agent": {
+    "input": {
+      "name": "Joseph Banda",
+      "email": "joe.agent@example.zm",
+      "referral_code": "AGENT-JB-01",
+      "commission_earned": 0.0,
+      "default": false
+    },
+    "raw_response": {
+      "data": {
+        "id": 7,
+        "attributes": {
+          "name": "Joseph Banda",
+          "email": "joe.agent@example.zm",
+          "referral_code": "AGENT-JB-01",
+          "commission_earned": 0.0,
+          "default": false
+        }
+      }
+    },
+    "normalized": {
+      "id": 7,
+      "name": "Joseph Banda",
+      "email": "joe.agent@example.zm",
+      "referral_code": "AGENT-JB-01",
+      "commission_earned": 0.0,
+      "default": false
+    }
+  },
+
+  "print": {
+    "input": {
+      "file_pages_count": 10,
+      "selected_pages": [1,2,3,4],
+      "copies_requested": 2,
+      "price_per_page": 1.5,
+      "price_per_copy": 15,
+      "color_print": true,
+      "laminated": false,
+      "print_type": "file",
+      "paid_for_online": false,
+      "client": 333,
+      "company": 42
+    },
+    "raw_response": {
+      "data": {
+        "id": 555,
+        "attributes": {
+          "file_pages_count": 10,
+          "selected_pages": [1,2,3,4],
+          "copies_printed": 0,
+          "copies_requested": 2,
+          "price_per_page": 1.5,
+          "price_per_copy": 15,
+          "color_print": true,
+          "laminated": false,
+          "print_type": "file",
+          "state": "unprinted",
+          "paid_for_online": false,
+          "client": { "data": { "id": 333, "attributes": { "clientId": "client-abc123" } } },
+          "company": { "data": { "id": 42, "attributes": { "name": "Campus Prints" } } },
+          "file_details": { "filename": "assignment.pdf" }
+        }
+      }
+    },
+    "normalized": {
+      "id": 555,
+      "file_pages_count": 10,
+      "selected_pages": [1,2,3,4],
+      "copies_printed": 0,
+      "copies_requested": 2,
+      "price_per_page": 1.5,
+      "price_per_copy": 15,
+      "color_print": true,
+      "laminated": false,
+      "print_type": "file",
+      "state": "unprinted",
+      "paid_for_online": false,
+      "client": { "data": { "id": 333, "attributes": { "clientId": "client-abc123" } } },
+      "company": { "data": { "id": 42, "attributes": { "name": "Campus Prints" } } },
+      "file_details": { "filename": "assignment.pdf" }
+    }
+  },
+
+  "queue": {
+    "input": {
+      "company": 42,
+      "clients": ["client-abc123","client-xyz999"],
+      "status": "open"
+    },
+    "raw_response": {
+      "data": {
+        "id": 12,
+        "attributes": {
+          "company": 42,
+          "clients": ["client-abc123","client-xyz999"],
+          "status": "open"
+        }
+      }
+    },
+    "normalized": {
+      "id": 12,
+      "company": 42,
+      "clients": ["client-abc123","client-xyz999"],
+      "status": "open"
+    }
+  },
+
+  "float_top_up": {
+    "input": {
+      "company": 42,
+      "amount_paid": 200,
+      "float_credited": 190,
+      "transaction_id": "LNCPAY-xxx",
+      "status": "completed"
+    },
+    "raw_response": {
+      "data": {
+        "id": 9001,
+        "attributes": {
+          "company": 42,
+          "amount_paid": 200,
+          "float_credited": 190,
+          "transaction_id": "LNCPAY-xxx",
+          "status": "completed"
+        }
+      }
+    },
+    "normalized": {
+      "id": 9001,
+      "company": 42,
+      "amount_paid": 200,
+      "float_credited": 190,
+      "transaction_id": "LNCPAY-xxx",
+      "status": "completed"
+    }
+  },
+
+  "commission": {
+    "input": {
+      "agent": 7,
+      "company": 42,
+      "print_job": 555,
+      "amount": 2.00
+    },
+    "raw_response": {
+      "data": {
+        "id": 400,
+        "attributes": {
+          "agent": 7,
+          "company": 42,
+          "print_job": 555,
+          "amount": 2.00
+        }
+      }
+    },
+    "normalized": {
+      "id": 400,
+      "agent": 7,
+      "company": 42,
+      "print_job": 555,
+      "amount": 2.00
+    }
+  },
+
+  "ad": {
+    "input": {
+      "company": 42,
+      "title": "Student special - 20% off",
+      "link": "https://campusprints.example",
+      "active": true
+    },
+    "raw_response": {
+      "data": {
+        "id": 88,
+        "attributes": {
+          "title": "Student special - 20% off",
+          "link": "https://campusprints.example",
+          "active": true,
+          "company": { "data": { "id": 42 } }
+        }
+      }
+    },
+    "normalized": {
+      "id": 88,
+      "title": "Student special - 20% off",
+      "link": "https://campusprints.example",
+      "active": true,
+      "company": { "data": { "id": 42 } }
+    }
+  },
+
+  "email_otp": {
+    "input": {
+      "email": "owner@campusprints.zm"
+    },
+    "raw_response": {
+      "data": {
+        "id": 501,
+        "attributes": {
+          "email": "owner@campusprints.zm",
+          "otp": "123456",
+          "expires_at": "2025-09-10T12:00:00.000Z"
+        }
+      }
+    },
+    "normalized": {
+      "id": 501,
+      "email": "owner@campusprints.zm",
+      "otp": "123456",
+      "expires_at": "2025-09-10T12:00:00.000Z"
+    }
+  },
+
+  "order_id_single": {
+    "input": null,
+    "raw_response": {
+      "data": {
+        "id": 1,
+        "attributes": {
+          "nextOrderNumber": 1002
+        }
+      }
+    },
+    "normalized": {
+      "id": 1,
+      "nextOrderNumber": 1002
+    }
+  },
+
+  "dashboard_summary_single": {
+    "input": {
+      "total_prints": 1234,
+      "total_commissions_paid": 240.5,
+      "total_profit": 1024.6
+    },
+    "raw_response": {
+      "data": {
+        "id": 1,
+        "attributes": {
+          "total_prints": 1234,
+          "total_commissions_paid": 240.5,
+          "total_profit": 1024.6
+        }
+      }
+    },
+    "normalized": {
+      "id": 1,
+      "total_prints": 1234,
+      "total_commissions_paid": 240.5,
+      "total_profit": 1024.6
+    }
+  },
+
+  "history": {
+    "description": "New content type: histories (attributes: activity(enum), activityBody (string), relations client (manyToOne), user (manyToOne))",
+    "input_examples": [
+      {
+        "input": {
+          "activity": "uploaded file",
+          "activityBody": "User uploaded assignment.pdf",
+          "client": 333,
+          "user": null
+        },
+        "note": "client-only activity"
+      },
+      {
+        "input": {
+          "activity": "printed file",
+          "activityBody": "Shop printed assignment.pdf for client-abc123",
+          "client": 333,
+          "user": 42
+        },
+        "note": "printed file — logged by company (company's user id 42) and linked to client"
+      },
+      {
+        "input": {
+          "activity": "added float",
+          "activityBody": "Company topped up float by 200 ZMW",
+          "client": null,
+          "user": 42
+        },
+        "note": "company-only activity (agent/company user triggers)"
+      },
+      {
+        "input": {
+          "input": {
+            "activity": "withdrew commission",
+            "activityBody": "Agent Joseph withdrew 2 ZMW commission",
+            "client": null,
+            "user": 7
+          }
+        }
+      }
+    ],
+    "raw_response_example": {
+      "data": {
+        "id": 1001,
+        "attributes": {
+          "activity": "printed file",
+          "activityBody": "Shop printed assignment.pdf for client-abc123",
+          "client": { "data": { "id": 333, "attributes": { "clientId": "client-abc123" } } },
+          "user": { "data": { "id": 42, "attributes": { "username": "shop-owner" } } },
+          "createdAt": "2025-09-10T12:34:56.000Z"
+        }
+      }
+    },
+    "normalized_example": {
+      "id": 1001,
+      "activity": "printed file",
+      "activityBody": "Shop printed assignment.pdf for client-abc123",
+      "client": { "data": { "id": 333, "attributes": { "clientId": "client-abc123" } } },
+      "user": { "data": { "id": 42, "attributes": { "username": "shop-owner" } } },
+      "createdAt": "2025-09-10T12:34:56.000Z"
+    }
+  }
+}
+
+{
+  "contentTypes": {
+    "user": [
+      { "field": "role", "target": "plugin::users-permissions.role", "relation": "manyToOne", "inversedBy": "users" },
+      { "field": "client", "target": "api::client.client", "relation": "oneToOne", "inversedBy": "user" },
+      { "field": "company", "target": "api::company.company", "relation": "oneToOne", "inversedBy": "user" },
+      { "field": "agent", "target": "api::agent.agent", "relation": "oneToOne", "inversedBy": "user" }
+    ],
+
+    "client": [
+      { "field": "prints", "target": "api::print.print", "relation": "oneToMany", "mappedBy": "client" },
+      { "field": "user", "target": "plugin::users-permissions.user", "relation": "oneToOne", "mappedBy": "client" }
+    ],
+
+    "company": [
+      { "field": "prints", "target": "api::print.print", "relation": "oneToMany", "mappedBy": "company" },
+      { "field": "ads", "target": "api::ad.ad", "relation": "oneToMany", "mappedBy": null },
+      { "field": "user", "target": "plugin::users-permissions.user", "relation": "oneToOne", "mappedBy": "company" }
+    ],
+
+    "print": [
+      { "field": "client", "target": "api::client.client", "relation": "manyToOne", "inversedBy": "prints" },
+      { "field": "company", "target": "api::company.company", "relation": "manyToOne", "inversedBy": "prints" },
+      { "field": "file", "target": "plugin::upload.file", "relation": "media", "note": "single media field" },
+      { "field": "pdf_file", "target": "plugin::upload.file", "relation": "media", "note": "single media field" }
+    ],
+
+    "agent": [
+      { "field": "user", "target": "plugin::users-permissions.user", "relation": "oneToOne", "mappedBy": "agent" }
+    ],
+
+    "queue": [
+      { "field": "company", "target": "api::company.company", "relation": "oneToOne", "mappedBy": null }
+    ],
+
+    "floatTopUp": [
+      { "field": "company", "target": "api::company.company", "relation": "manyToOne", "inversedBy": null }
+    ],
+
+    "commission": [
+      { "field": "agent", "target": "api::agent.agent", "relation": "manyToOne", "inversedBy": null },
+      { "field": "company", "target": "api::company.company", "relation": "manyToOne", "inversedBy": null },
+      { "field": "print_job", "target": "api::print.print", "relation": "manyToOne", "inversedBy": null }
+    ],
+
+    "ad": [
+      { "field": "company", "target": "api::company.company", "relation": "manyToOne", "inversedBy": null }
+    ],
+
+    "emailOtp": [
+      { "field": "user", "target": "plugin::users-permissions.user", "relation": "manyToOne", "inversedBy": null }
+    ],
+
+    "orderId": [
+      { "field": null, "target": null, "relation": null }
+    ],
+
+    "dashboardSummary": [
+      { "field": null, "target": null, "relation": null }
+    ],
+
+    "history": [
+      { "field": "client", "target": "api::client.client", "relation": "manyToOne", "inversedBy": null },
+      { "field": "user", "target": "plugin::users-permissions.user", "relation": "manyToOne", "inversedBy": null }
+    ]
+  },
+
+  "components": {
+    "company.services": {
+      "relations": []
+    }
+  }
+}
+
+
+== Firebase Cloud Messaging (Web) Notifications ==
+
+Prerequisites:
+- A Firebase project with a Web App added.
+- Your public VAPID key (for Web Push) available in Firebase console.
+
+Steps:
+1) Install Firebase web SDK (hosting provider will build from package.json):
+   pnpm add firebase
+
+2) Create file client/firebase.ts with your config:
+   import { initializeApp } from "firebase/app";
+   import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
+   const firebaseConfig = { apiKey: "<API_KEY>", authDomain: "<...>", projectId: "<...>", messagingSenderId: "<...>", appId: "<...>" };
+   export const app = initializeApp(firebaseConfig);
+   export const messaging = await isSupported().then(s => s ? getMessaging(app) : null);
+
+3) Create service worker at public/firebase-messaging-sw.js (served from site root):
+   /* global self, importScripts */
+   importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js");
+   importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js");
+   firebase.initializeApp({ apiKey: "<API_KEY>", authDomain: "<...>", projectId: "<...>", messagingSenderId: "<...>", appId: "<...>" });
+   const messaging = firebase.messaging();
+
+4) Request permission and register SW in app code (e.g., after user clicks Allow):
+   const reg = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+   const token = await getToken(messaging!, { vapidKey: "<WEB_PUSH_CERT>", serviceWorkerRegistration: reg });
+   // send token to your backend (Strapi) to link notifications to user/client
+
+5) Handle foreground messages:
+   onMessage(messaging!, (payload) => {
+     // show a toast/notification in-app
+   });
+
+6) In Firebase console: enable Cloud Messaging API and upload Web Push certificates (VAPID).
+
+7) On server: store FCM tokens per user/client and send notifications via FCM HTTPv1 API when state changes (e.g., job queued/printed).
+
+Note: If you prefer not to use Firebase yet, the current app already requests browser Notification permission and shows local notifications while the page is open.
+
+
+== Google Maps JavaScript API Integration ==
+
+Steps:
+1) Create a Google Cloud project and enable:
+   - Maps JavaScript API
+   - Geocoding API (optional for address -> lat/lng)
+   - Places API (optional for autocomplete)
+
+2) Create an API key, restrict by HTTP referrer and enable the APIs above.
+
+3) Load the JS API (in index.html or dynamically):
+   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&libraries=places" async defer></script>
+
+4) Basic map component (React):
+   - Create a div with a fixed height.
+   - Initialize new google.maps.Map(div, { center: { lat, lng }, zoom: 15 }).
+   - Add a Marker: new google.maps.Marker({ position: { lat, lng }, map }).
+
+5) Geolocation use:
+   - Use navigator.geolocation.getCurrentPosition to get user's position, then center the map.
+
+6) Autocomplete input:
+   - const ac = new google.maps.places.Autocomplete(inputEl); ac.addListener("place_changed", () => { const p = ac.getPlace(); /* use p.geometry.location */ });
+
+7) Persist coordinates as numbers in Strapi per your schema (location: { lat, lng }).
+
+8) For distance filtering, keep using server-side bounding box + Haversine as implemented in Functions.js (getNearbyCompanies), or use Google Distance Matrix API if travel time is needed.

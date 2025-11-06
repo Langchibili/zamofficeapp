@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clients",
+  "info": {
+    "singularName": "client",
+    "pluralName": "clients",
+    "displayName": "Client",
+    "description": "End-user identity tied to a generated clientId"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "clientId": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "description": "Auto-generated UUID/string stored in localStorage for each browser session"
+    },
+    "clientFirstName": {
+      "type": "string",
+      "description": "Optional first name for personalization"
+    },
+    "clientLastName": {
+      "type": "string",
+      "description": "Optional last name for personalization"
+    },
+    "clientPhoneNumber": {
+      "type": "string",
+      "description": "Optional phone number if provided by the user"
+    },
+    "currentLocation": {
+      "type": "json",
+      "description": "{ lat, lng } updated when user moves (used for proximity checks)"
+    },
+    "prints": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::print.print",
+      "mappedBy": "client"
+    },
+    "queue": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::queue.queue",
+      "inversedBy": "clients"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "client"
+    },
+    "histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::history.history",
+      "mappedBy": "client"
+    },
+    "socketId": {
+      "type": "string"
+    }
+  }
+}

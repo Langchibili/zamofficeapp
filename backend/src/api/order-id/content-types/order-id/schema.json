@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "order_ids",
+  "info": {
+    "singularName": "order-id",
+    "pluralName": "order-ids",
+    "displayName": "OrderIds"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ids": {
+      "type": "json"
+    }
+  }
+}

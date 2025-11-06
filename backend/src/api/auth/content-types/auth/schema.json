@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "auths",
+  "info": {
+    "singularName": "auth",
+    "pluralName": "auths",
+    "displayName": "auth",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "identifier": {
+      "type": "string",
+      "unique": true
+    },
+    "identifierType": {
+      "type": "enumeration",
+      "enum": [
+        "phoneNumber",
+        "email"
+      ]
+    },
+    "otp": {
+      "type": "string",
+      "unique": false
+    }
+  }
+}

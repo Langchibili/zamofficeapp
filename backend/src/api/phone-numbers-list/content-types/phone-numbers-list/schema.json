@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "phone_numbers_lists",
+  "info": {
+    "singularName": "phone-numbers-list",
+    "pluralName": "phone-numbers-lists",
+    "displayName": "phoneNumbersList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "clientNumbers": {
+      "type": "json"
+    },
+    "adminNumbers": {
+      "type": "json"
+    }
+  }
+}

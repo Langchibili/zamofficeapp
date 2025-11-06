@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ads",
+  "info": {
+    "singularName": "ad",
+    "pluralName": "ads",
+    "displayName": "Ad",
+    "description": "Promotional content or advertisements for companies"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "company": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "description": "The company that owns this advertisement"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "description": "Headline for the advertisement"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "description": "Image associated with the ad"
+    },
+    "link": {
+      "type": "string",
+      "description": "Optional URL the ad should point to"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this ad is currently live"
+    },
+    "created_at": {
+      "type": "datetime",
+      "autoCreatedAt": true
+    },
+    "updated_at": {
+      "type": "datetime",
+      "autoUpdatedAt": true
+    }
+  }
+}

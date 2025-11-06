@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "email_addresses_lists",
+  "info": {
+    "singularName": "email-addresses-list",
+    "pluralName": "email-addresses-lists",
+    "displayName": "emailAddressesList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "clientEmailAddresses": {
+      "type": "json"
+    },
+    "adminEmailAddresses": {
+      "type": "json"
+    }
+  }
+}

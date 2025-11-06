@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "queues",
+  "info": {
+    "singularName": "queue",
+    "pluralName": "queues",
+    "displayName": "Queue"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "company": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company",
+      "inversedBy": "queue"
+    },
+    "clients": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::client.client",
+      "mappedBy": "queue"
+    },
+    "prints": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::print.print",
+      "mappedBy": "queue"
+    }
+  }
+}

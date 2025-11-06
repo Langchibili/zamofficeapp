@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_company_services",
+  "info": {
+    "displayName": "company.services",
+    "description": "Additional services and surcharges offered by a company"
+  },
+  "options": {},
+  "attributes": {
+    "color_print_surcharge": {
+      "type": "float",
+      "default": 0,
+      "description": "Additional cost per page for color printing"
+    },
+    "lamination_surcharge": {
+      "type": "float",
+      "default": 0,
+      "description": "Additional flat fee for lamination service"
+    },
+    "binding_surcharge": {
+      "type": "float",
+      "default": 0,
+      "description": "Additional flat fee for binding service"
+    },
+    "photocopy_cost_per_page": {
+      "type": "float",
+      "default": 0,
+      "description": "Cost per page for photocopying (if different from printing)"
+    },
+    "scanning_cost_per_page": {
+      "type": "float",
+      "default": 0,
+      "description": "Cost per page for scanning service"
+    }
+  }
+}

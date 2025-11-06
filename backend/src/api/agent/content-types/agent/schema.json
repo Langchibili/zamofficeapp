@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agents",
+  "info": {
+    "singularName": "agent",
+    "pluralName": "agents",
+    "displayName": "Agent",
+    "description": "Agents who refer companies and earn commission"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "Full name of the agent"
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true,
+      "description": "Email address used for login and OTP verification"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Optional phone number for contact or withdrawal"
+    },
+    "referral_code": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "description": "Unique code companies use at signup to credit this agent"
+    },
+    "commission_earned": {
+      "type": "float",
+      "default": 0,
+      "description": "Total commission balance accrued from referred companies"
+    },
+    "default": {
+      "type": "boolean",
+      "default": false,
+      "description": "Marks this as the default agent if no referral code is provided"
+    },
+    "companies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::company.company",
+      "mappedBy": "agent"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "agent"
+    }
+  }
+}

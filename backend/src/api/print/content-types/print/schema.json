@@ -1,0 +1,171 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prints",
+  "info": {
+    "singularName": "print",
+    "pluralName": "prints",
+    "displayName": "Print",
+    "description": "Tracks each print job and its metadata"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "printId": {
+      "type": "integer",
+      "unique": true
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "pdf_file": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "file_details": {
+      "type": "json",
+      "required": false,
+      "description": "Raw metadata (e.g., original filename, MIME type)"
+    },
+    "file_pages_count": {
+      "type": "integer",
+      "required": false,
+      "description": "Total number of pages in the uploaded document"
+    },
+    "selected_pages": {
+      "type": "json",
+      "default": [],
+      "description": "Array of page numbers the client wants to print"
+    },
+    "copies_requested": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of copies requested by the client"
+    },
+    "cost_per_page": {
+      "type": "decimal",
+      "required": false,
+      "description": "Cost per single page, as set by the company"
+    },
+    "cost_per_copy": {
+      "type": "decimal",
+      "required": false,
+      "description": "Computed as price_per_page × total pages in a copy"
+    },
+    "final_cost_amount": {
+      "type": "decimal",
+      "required": false,
+      "description": "Total amount charged to the client"
+    },
+    "discount_given": {
+      "type": "decimal",
+      "default": 0,
+      "description": "Any discount applied by the company"
+    },
+    "print_type": {
+      "type": "enumeration",
+      "enum": [
+        "file",
+        "business_card",
+        "wedding_card",
+        "invitation_card"
+      ],
+      "default": "file"
+    },
+    "laminated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the pages are to be laminated"
+    },
+    "colored": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the print is in color"
+    },
+    "scheduled_time": {
+      "type": "datetime",
+      "description": "Datetime at which the client wants a scheduled print (if outside proximity)"
+    },
+    "paid_for_online": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether payment was completed online"
+    },
+    "payment_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "paid",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Tracks online payment lifecycle"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "queued",
+        "scheduled",
+        "bound",
+        "printing",
+        "printed",
+        "canceled"
+      ],
+      "default": "draft",
+      "description": "Lifecycle stage of the print job"
+    },
+    "paper_used_amount": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of paper sheets consumed in printing"
+    },
+    "damaged_paper_amount": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of pages damaged and wasted"
+    },
+    "client": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::client.client",
+      "inversedBy": "prints"
+    },
+    "company": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "inversedBy": "prints"
+    },
+    "queue": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::queue.queue",
+      "inversedBy": "prints"
+    },
+    "queue_position": {
+      "type": "integer"
+    },
+    "baseFileUploaded": {
+      "type": "boolean",
+      "default": false
+    },
+    "scheduled": {
+      "type": "boolean",
+      "default": false
+    },
+    "bound": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
